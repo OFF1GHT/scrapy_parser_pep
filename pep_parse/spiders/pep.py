@@ -1,12 +1,13 @@
 import scrapy
 
+from urllib.parse import urlparse
 from pep_parse.items import PepParseItem
 
 
 class PepSpider(scrapy.Spider):
     name = 'pep'
-    allowed_domains = ['peps.python.org']
     start_urls = ['https://peps.python.org/']
+    allowed_domains = [urlparse(url).netloc for url in start_urls]
 
     def parse(self, response):
         table_cell = response.css('section[id^=numerical-index] tbody tr')
